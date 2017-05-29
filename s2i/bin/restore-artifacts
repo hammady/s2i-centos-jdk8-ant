@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+if [ "$(ls -A /tmp/artifacts/ 2>/dev/null)" ]; then
+  echo "---> Restoring build artifacts ..."
+  bin_dir=${BIN_DIR:-bin}
+  mv -v /tmp/artifacts/$bin_dir ./
+else
+  echo "---> No build artifacts to restore"
+fi

@@ -4,9 +4,9 @@ MAINTAINER Hossam Hammady <github@hammady.net>
 
 EXPOSE 8080
 
-LABEL summary="Platform for building and running Java Ant based applications" \
-      io.k8s.description="Platform for building and running Java Ant based applications" \
-      io.k8s.display-name="Java Ant" \
+LABEL summary="Platform for building and running Java 8 Ant based applications" \
+      io.k8s.description="Platform for building and running Java 8 Ant based applications" \
+      io.k8s.display-name="Java 8 Ant" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,java,ant"
 

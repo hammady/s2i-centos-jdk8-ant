@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+pushd ${HOME} >/dev/null
+
+bin_dir=${BIN_DIR:-bin}
+tar cf - $bin_dir
+
+popd >/dev/null
+

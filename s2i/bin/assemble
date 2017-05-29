@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function copy_source() {
+  shopt -s dotglob
+  echo "---> Installing application source ..."
+  mv /tmp/src/* ./
+  shopt -u dotglob
+}
+
+function build_source() {
+  echo "---> Building your Java Ant application from source ..."
+  buildfile=${BUILDFILE:-build.xml}
+  ant -buildfile $buildfile $BUILD_TASK
+}
+
+$STI_SCRIPTS_PATH/restore-artifacts
+
+# exit immediately on error
+set -e
+
+copy_source
+
+build_source
+
+# Fix source directory permissions
+fix-permissions ./
+
+# Make the ./tmp folder world writeable as Rails or other frameworks might use
+# it to store temporary data (uploads/cache/sessions/etcd).
+# The ./db folder has to be writeable as well because when Rails complete the
+# migration it writes the schema version into ./db/schema.db
+set +e
+[[ -d ./tmp ]] && chgrp -R 0 ./tmp && chmod -R g+rw ./tmp
+[[ -d ./db ]] && chgrp -R 0 ./db && chmod -R g+rw ./db
+set -e
