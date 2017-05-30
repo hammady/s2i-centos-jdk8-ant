@@ -7,3 +7,7 @@ if [ "$(ls -A /tmp/artifacts/ 2>/dev/null)" ]; then
 else
   echo "---> No build artifacts to restore"
 fi
+
+# although bin is copied over, but caching doesn't work: compiles all again
+# the reason is that when checking out the source code
+# all timestamps are initialized to now, no timestamps are preserved
