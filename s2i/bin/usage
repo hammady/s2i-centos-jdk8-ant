@@ -12,9 +12,33 @@ If otherwise, you want to invoke an alternative task, set its name to the enviro
 
 To run your application, an ant task called 'run' must exist in your build file.
 If you want to run an alternative task, set its name to the environment variable RUN_TASK.
-Your application server must launch on port 8080.
+The application should listen on the port passed by the evnironment variable PORT.
+You can pass additional environment variables to control the running of your Java application:
+- MAX_MEMORY: maximum JVM heap memory
+- JVM_ARGS: additional JVM arguments
+
+To setup your build file to access the environment:
+
+  <property environment="env"/>
+  <!-- default environment variable values -->
+  <property name="env.MAX_MEMORY" value="100m"/>
+  <property name="env.JVM_ARGS" value=""/>
+  <property name="env.PORT" value="8080"/>
+
+  <!-- example run target where the port is passed as first argument to the app -->
+  <target name="run">
+      <java
+        jar="path/to/your/jar/or/property"
+        fork="true"
+        failonerror="true"
+        maxmemory="${env.MAX_MEMORY}">
+          <jvmarg line="${env.JVM_ARGS}"/>
+          <arg value="${env.PORT}"/>
+      </java>
+  </target>
 
 It is assumed that the classes are built inside a directory called 'bin'. This directory
 is cached across builds through the save-artifacts script.
 If you have an alternative bin directory, set its name to the environment variable BIN_DIR.
+Note: currently ant caching is not working as expected, check the source code of restore-artifacts
 EOF
