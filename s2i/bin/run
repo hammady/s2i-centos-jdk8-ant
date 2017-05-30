@@ -5,6 +5,7 @@ pushd ${HOME} >/dev/null
 run_task=${RUN_TASK:-run}
 buildfile=${BUILDFILE:-build.xml}
 echo "---> Running your Java Ant application ..."
+export PORT=8080 # should match Dockerfile EXPOSE
 ant -buildfile $buildfile $run_task
 
 popd >/dev/null
